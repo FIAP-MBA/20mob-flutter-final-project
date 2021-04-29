@@ -5,12 +5,9 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Filmes",
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => HomeView(),
-        '/home': (context) => HomeView(),
-      },
+      home: HomeView(),
     );
   }
 }

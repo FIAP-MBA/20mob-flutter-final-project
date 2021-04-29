@@ -2,6 +2,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
+import 'package:flutter_20mob_project_final/app/views/home_details.dart';
 
 class BuildPopularListTile extends StatelessWidget {
   final MovieModel movie;
@@ -22,7 +23,11 @@ class BuildPopularListTile extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) {},
+          builder: (BuildContext context) {
+            return MovieDetails(
+              movie: movie,
+            );
+          },
         ),
       ),
       child: Card(
