@@ -43,7 +43,7 @@ class MovieModel {
   MovieModel.fromJson(Map<String, dynamic> json)
       : adult = json["adult"],
         backdropPath = json["backdrop_path"],
-        favorite = json["favorite"],
+        favorite = false,
         genreIds = json["genre_ids"],
         genres = json["genres"],
         homepage = json["homepage"],
