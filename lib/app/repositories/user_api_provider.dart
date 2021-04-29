@@ -8,7 +8,7 @@ class MovieApiProvider {
   static String _endpoint = "https://api.themoviedb.org/3";
   static String language = "pt-BR";
   var getMoviesUrl =
-      '$_endpoint/movie/popular?api_key=$apiKey&language=$language&page=1';
+      '$_endpoint/movie/now_playing?api_key=$apiKey&language=$language';
   Dio _dio;
 
   MovieApiProvider() {
