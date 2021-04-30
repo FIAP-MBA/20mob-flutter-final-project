@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
+import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/movie_card.dart';
 
@@ -18,16 +20,21 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<MovieModel>>(
-      stream: bloc.subject.stream,
-      builder: (context, AsyncSnapshot<List<MovieModel>> snapshot) {
-        if (snapshot.hasData) {
-          return _buildMovieWidget(snapshot.data);
-        } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error, context);
-        } else {
-          return _buildLoadingWidget(context);
-        }
+    return AnimatedBuilder(
+      animation: MovieController.instance,
+      builder: (BuildContext context, Widget child) {
+        return StreamBuilder<List<MovieModel>>(
+          stream: bloc.subject.stream,
+          builder: (context, AsyncSnapshot<List<MovieModel>> snapshot) {
+            if (snapshot.hasData) {
+              return _buildMovieWidget(snapshot.data);
+            } else if (snapshot.hasError) {
+              return _buildErrorWidget(snapshot.error, context);
+            } else {
+              return _buildLoadingWidget(context);
+            }
+          },
+        );
       },
     );
   }
@@ -80,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
           return BuildPopularListTile(
             movie: movies[position],
             bloc: bloc,
-            favoriteMovie: movies[position],
+            favoriteMovie: MovieController.instance.movies[position],
           );
         },
       ),

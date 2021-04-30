@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
+import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/home_details.dart';
 
@@ -45,7 +47,9 @@ class BuildPopularListTile extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: () => {},
+                  onTap: () async {
+                    MovieController.instance.changeMovies(movie);
+                  },
                   child: _buildIcon(movie.favorite),
                 ),
               ),

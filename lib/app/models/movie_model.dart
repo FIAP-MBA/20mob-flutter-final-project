@@ -1,7 +1,7 @@
 class MovieModel {
   final bool adult;
   final String backdropPath;
-  final bool favorite;
+  bool favorite;
   final List genreIds;
   final String genres;
   final String homepage;
@@ -19,7 +19,7 @@ class MovieModel {
   final int voteCount;
   final String year;
 
-  const MovieModel(
+  MovieModel(
       this.adult,
       this.backdropPath,
       this.favorite,
