@@ -9,10 +9,15 @@ class MovieBloc {
       BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
-    List<MovieModel> response = await _repository.getMovies();
-    MovieController.instance.changeMoviesApi(response);
-    print(response);
-    _subject.sink.add(response);
+    try {
+      List<MovieModel> response = await _repository.getMovies();
+      MovieController.instance.changeMoviesApi(response);
+      print(response);
+      _subject.sink.add(response);
+    } catch (error) {
+      print("Teste");
+      print(error);
+    }
   }
 
   upgradeMovies() async {

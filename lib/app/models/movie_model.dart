@@ -60,4 +60,28 @@ class MovieModel {
         voteAverage = json["vote_average"].toString(),
         voteCount = json["vote_count"],
         year = json["year"];
+
+  Map<String, dynamic> toMap() {
+    return {
+      'adult' : adult,
+      'backdropPath' : backdropPath,
+      'favorite' : favorite,
+      'genreIds' : genreIds,
+      'genres' : genres,
+      'homepage' : homepage,
+      'id' : id,
+      'originalLanguage' : originalLanguage,
+      'originalTitle' : originalTitle,
+      'overview' : overview,
+      'popularity' : popularity,
+      'posterPath' : posterPath,
+      'releaseDate' : releaseDate,
+      'title' : title,
+      'uid' : uid,
+      'video' : video,
+      'voteAverage' : voteAverage,
+      'voteCount' : voteCount,
+      'year' : year
+    };
+  }
 }
