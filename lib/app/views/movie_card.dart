@@ -65,30 +65,18 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
   }
 
   void _favorite() async {
-    final FirebaseUser user = await _getUser();
     MovieController.instance.changeMovies(widget.movie);
     Map<String, dynamic> data = {
-      "adult": "",
-      "backdrop_path": "",
+      "backdrop_path": widget.movie.backdropPath,
       "favorite": !(widget.movie.favorite == 1),
-      "genreIds": "",
-      "genres": "",
-      "homepage": "",
-      "id": "",
-      "originalLanguage": "",
-      "originalTitle": "",
-      "overview": "",
-      "popularity": "",
-      "posterPath": "",
-      "releaseDate": "",
-      "title": "",
-      "uid": "",
-      "video": "",
-      "voteAverage": "",
-      "voteCount": "",
-      "year": ""
+      "originalTitle": widget.movie.originalTitle,
+      "overview": widget.movie.overview,
+      "popularity": widget.movie.popularity,
+      "posterPath": widget.movie.posterPath,
+      "title": widget.movie.title,
+      "voteAverage": widget.movie.voteAverage,
     };
-    Firestore.instance.collection('movie').add(data);
+    Firestore.instance.collection('bookmark').document(widget.movie.id.toString()).setData(data, merge: true);
   }
 
   @override
