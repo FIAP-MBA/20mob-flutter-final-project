@@ -1,30 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_20mob_project_final/app/views/profile_form_view.dart';
 
-class ProfileView extends StatefulWidget {
-  @override
-  _ProfileViewState createState() => _ProfileViewState();
-}
-
-class _ProfileViewState extends State<ProfileView> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Screen"),
+        title: Text("Editar perfil"),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Go back!'),
-        ),
-      ),
+      body: ProfileFormView(),
     );
   }
 }
