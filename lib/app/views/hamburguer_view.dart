@@ -37,6 +37,16 @@ class HamburguerView extends StatelessWidget {
                 },
               ),
               ListTile(
+                leading: Icon(Icons.star),
+                title: Text("favoritos"),
+                subtitle: Text("seus filmes favoritos"),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfileView())
+                  );
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text("sair"),
                 subtitle: Text("sair da tela"),
