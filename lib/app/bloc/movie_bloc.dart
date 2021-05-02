@@ -10,7 +10,7 @@ class MovieBloc {
       BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
-    int page = 1;
+    int page = 1; //TODO: get more pages
     try {
       MovieResponse response = await repository.getMovies();
       _handlerList(response);
@@ -23,6 +23,7 @@ class MovieBloc {
   _getMoviesLocal(int page) async {
     try {
       List<MovieModel> list = await repository.getMovieLocalWith(page);
+      list.sort((a, b) => double.parse(b.popularity).compareTo(double.parse(a.popularity)));
       MovieController.instance.changeMoviesApi(list);
       print(list);
       _subject.sink.add(list);
