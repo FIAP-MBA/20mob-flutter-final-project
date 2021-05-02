@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -133,10 +134,10 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
     if (posterPath == null) {
       return Image.asset('images/placeholder.png');
     } else {
-      return FadeInImage.assetNetwork(
-        placeholder: 'images/placeholder.png',
-        image: "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
-        fit: BoxFit.cover,
+      return CachedNetworkImage(
+        imageUrl: "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
+        placeholder: (context, url) => Image.asset('images/placeholder.png', fit: BoxFit.cover),
+        fit: BoxFit.cover
       );
     }
   }
