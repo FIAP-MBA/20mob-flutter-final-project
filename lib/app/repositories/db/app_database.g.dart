@@ -60,8 +60,6 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  MovieResponseDao _movieResponseDaoInstance;
-
   MovieModelDao _movieModelDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
@@ -82,8 +80,6 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `MovieResponse` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `page` INTEGER, `totalResults` INTEGER, `totalPages` INTEGER, `error` TEXT)');
-        await database.execute(
             'CREATE TABLE IF NOT EXISTS `MovieModel` (`backdropPath` TEXT, `favorite` INTEGER, `homepage` TEXT, `id` INTEGER, `originalLanguage` TEXT, `originalTitle` TEXT, `overview` TEXT, `popularity` TEXT, `posterPath` TEXT, `releaseDate` TEXT, `title` TEXT, `uid` INTEGER, `voteAverage` TEXT, `voteCount` INTEGER, `year` TEXT, `idResponse` INTEGER, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
@@ -93,55 +89,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  MovieResponseDao get movieResponseDao {
-    return _movieResponseDaoInstance ??=
-        _$MovieResponseDao(database, changeListener);
-  }
-
-  @override
   MovieModelDao get movieModelDao {
     return _movieModelDaoInstance ??= _$MovieModelDao(database, changeListener);
-  }
-}
-
-class _$MovieResponseDao extends MovieResponseDao {
-  _$MovieResponseDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _movieResponseInsertionAdapter = InsertionAdapter(
-            database,
-            'MovieResponse',
-            (MovieResponse item) => <String, dynamic>{
-                  'id': item.id,
-                  'page': item.page,
-                  'totalResults': item.totalResults,
-                  'totalPages': item.totalPages,
-                  'error': item.error
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<MovieResponse> _movieResponseInsertionAdapter;
-
-  @override
-  Future<MovieResponse> findAll(int page) async {
-    return _queryAdapter.query('SELECT * FROM MovieResponse WHERE page = ?',
-        arguments: <dynamic>[page],
-        mapper: (Map<String, dynamic> row) => MovieResponse(
-            id: row['id'] as int,
-            page: row['page'] as int,
-            totalResults: row['totalResults'] as int,
-            totalPages: row['totalPages'] as int,
-            error: row['error'] as String));
-  }
-
-  @override
-  Future<int> insertMovieResponse(MovieResponse response) {
-    return _movieResponseInsertionAdapter.insertAndReturnId(
-        response, OnConflictStrategy.replace);
   }
 }
 
@@ -179,8 +128,9 @@ class _$MovieModelDao extends MovieModelDao {
   final InsertionAdapter<MovieModel> _movieModelInsertionAdapter;
 
   @override
-  Future<MovieModel> findAll(int idResponse) async {
-    return _queryAdapter.query('SELECT * FROM MovieModel WHERE idResponse = ?',
+  Future<List<MovieModel>> findAll(int idResponse) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM MovieModel WHERE idResponse = ?',
         arguments: <dynamic>[idResponse],
         mapper: (Map<String, dynamic> row) => MovieModel(
             backdropPath: row['backdropPath'] as String,

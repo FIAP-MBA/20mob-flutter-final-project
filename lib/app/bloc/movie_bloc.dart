@@ -5,13 +5,13 @@ import 'package:flutter_20mob_project_final/app/repositories/movie_repository.da
 import 'package:rxdart/rxdart.dart';
 
 class MovieBloc {
-  final MovieRepository _repository = MovieRepository();
+  MovieRepository repository;
   final BehaviorSubject<List<MovieModel>> _subject =
       BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
     try {
-      MovieResponse response = await _repository.getMovies();
+      MovieResponse response = await repository.getMovies();
       _handlerList(response);
     } catch (error) {
       print(error);
@@ -21,20 +21,26 @@ class MovieBloc {
 
   _getMoviesLocal() async {
     try {
-      MovieResponse response = await _repository.getMovies();
-      _handlerList(response);
+      int page = 1;
+      List<MovieModel> list = await repository.getMovieLocalWith(page);
+      MovieController.instance.changeMoviesApi(list);
+      print(list);
+      _subject.sink.add(list);
     } catch(error) {
       print(error);
     }
   }
 
   upgradeMovies() async {
-    MovieResponse response = await _repository.getMovies();
+    MovieResponse response = await repository.getMovies();
     _handlerList(response);
   }
 
-  _handlerList(MovieResponse response) {
-    print(response.toJson());
+  _handlerList(MovieResponse response) async {
+    response.results.forEach((element) async {
+      element.idResponse = response.page;
+      await repository.insertMovie(element);
+    });
     List<MovieModel> list = response.results;
     MovieController.instance.changeMoviesApi(list);
     print(list);

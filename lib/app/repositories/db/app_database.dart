@@ -4,12 +4,10 @@ import 'package:flutter_20mob_project_final/app/repositories/db/movie_model_dao.
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:floor/floor.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_response.dart';
-import 'package:flutter_20mob_project_final/app/repositories/db/movie_response_dao.dart';
 
 part 'app_database.g.dart';
 
-@Database(version: 1, entities: [MovieResponse, MovieModel])
+@Database(version: 1, entities: [MovieModel])
 abstract class AppDatabase extends FloorDatabase {
-  MovieResponseDao get movieResponseDao;
   MovieModelDao get movieModelDao;
 }
