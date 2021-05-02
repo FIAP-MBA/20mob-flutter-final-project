@@ -20,7 +20,7 @@ class _ProfileViewState extends State<ProfileView> {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            // Navigate back to first screen when tapped.
+            Navigator.pop(context);
           },
           child: Text('Go back!'),
         ),

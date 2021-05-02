@@ -8,9 +8,13 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Filmes",
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HamburguerView(),
+        '/profile': (context) => ProfileView()
+      },
       theme: ThemeData(brightness: Brightness.dark),
       debugShowCheckedModeBanner: false,
-      home: HamburguerView(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/views/home_view.dart';
+import 'package:flutter_20mob_project_final/app/views/profile_view.dart';
 
 class HamburguerView extends StatelessWidget {
   @override
@@ -21,14 +22,25 @@ class HamburguerView extends StatelessWidget {
                 leading: Icon(Icons.home),
                 title: Text("inicio"),
                 subtitle: Text("tela de inicio"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
               ListTile(
-                leading: Icon(Icons.home),
+                leading: Icon(Icons.person_rounded),
+                title: Text("perfil"),
+                subtitle: Text("editar perfil"),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProfileView())
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
                 title: Text("sair"),
                 subtitle: Text("sair da tela"),
                 onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/');
                 },
               ),
             ],
