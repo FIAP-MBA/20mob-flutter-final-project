@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';

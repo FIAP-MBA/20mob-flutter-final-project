@@ -1,10 +1,11 @@
+import 'package:floor/floor.dart';
+
+@entity
 class MovieModel {
-  final bool adult;
   final String backdropPath;
-  bool favorite;
-  final List genreIds;
-  final String genres;
+  int favorite;
   final String homepage;
+  @primaryKey
   final int id;
   final String originalLanguage;
   final String originalTitle;
@@ -14,17 +15,14 @@ class MovieModel {
   final String releaseDate;
   final String title;
   final int uid;
-  final bool video;
   final String voteAverage;
   final int voteCount;
   final String year;
+  int idResponse;
 
-  MovieModel(
-      this.adult,
+  MovieModel({
       this.backdropPath,
       this.favorite,
-      this.genreIds,
-      this.genres,
       this.homepage,
       this.id,
       this.originalLanguage,
@@ -35,17 +33,15 @@ class MovieModel {
       this.releaseDate,
       this.title,
       this.uid,
-      this.video,
       this.voteAverage,
       this.voteCount,
-      this.year);
+      this.year,
+      this.idResponse
+  });
 
   MovieModel.fromJson(Map<String, dynamic> json)
-      : adult = json["adult"],
-        backdropPath = json["backdrop_path"],
-        favorite = false,
-        genreIds = json["genre_ids"],
-        genres = json["genres"],
+      : backdropPath = json["backdrop_path"],
+        favorite = 0,
         homepage = json["homepage"],
         id = json["id"],
         originalLanguage = json["original_language"],
@@ -56,18 +52,14 @@ class MovieModel {
         releaseDate = json["release_date"],
         title = json["title"],
         uid = json["id"],
-        video = json["video"],
         voteAverage = json["vote_average"].toString(),
         voteCount = json["vote_count"],
         year = json["year"];
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'adult' : adult,
       'backdropPath' : backdropPath,
       'favorite' : favorite,
-      'genreIds' : genreIds,
-      'genres' : genres,
       'homepage' : homepage,
       'id' : id,
       'originalLanguage' : originalLanguage,
@@ -78,10 +70,10 @@ class MovieModel {
       'releaseDate' : releaseDate,
       'title' : title,
       'uid' : uid,
-      'video' : video,
       'voteAverage' : voteAverage,
       'voteCount' : voteCount,
-      'year' : year
+      'year' : year,
+      'idResponse' : idResponse
     };
   }
 }

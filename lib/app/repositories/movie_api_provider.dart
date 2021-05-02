@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_response.dart';
 import 'package:flutter_20mob_project_final/app/utils/logging_interceptor.dart';
 
@@ -18,13 +17,13 @@ class MovieApiProvider {
     _dio.interceptors.add(LoggingInterceptor());
   }
 
-  Future<List<MovieModel>> getMovies() async {
+  Future<MovieResponse> getMovies() async {
     try {
       Response response = await _dio.get(getMoviesUrl);
-      return MovieResponse.fromJson(response.data).results;
+      return MovieResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
-      return MovieResponse.withError(_handleError(error)).results;
+      return MovieResponse.withError(_handleError(error));
     }
   }
 

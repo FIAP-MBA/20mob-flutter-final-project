@@ -69,7 +69,7 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
     Map<String, dynamic> data = {
       "adult": "",
       "backdrop_path": "",
-      "favorite": !widget.movie.favorite,
+      "favorite": !(widget.movie.favorite == 1),
       "genreIds": "",
       "genres": "",
       "homepage": "",
@@ -119,7 +119,7 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: () => {_favorite()},
-                  child: _buildIcon(widget.movie.favorite),
+                  child: _buildIcon(widget.movie.favorite == 1),
                 ),
               ),
             ],
