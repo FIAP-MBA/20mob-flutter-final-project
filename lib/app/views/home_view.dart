@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
+import 'package:flutter_20mob_project_final/app/repositories/db/app_database.dart';
+import 'package:flutter_20mob_project_final/app/repositories/movie_repository.dart';
 import 'package:flutter_20mob_project_final/app/views/movie_card.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,7 +16,18 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    bloc.getMovies();
+    _createDataBase();
+  }
+
+  _createDataBase() {
+    $FloorAppDatabase
+        .databaseBuilder('app_database.db')
+        .build()
+        .then((value) {
+          AppDatabase _database = value;
+          bloc.repository = MovieRepository(_database);
+          bloc.getMovies();
+        });
   }
 
   @override

@@ -10,7 +10,7 @@ class MovieController extends ChangeNotifier {
   changeMovies(MovieModel movie) {
     movies.forEach((element) {
       if (element.id == movie.id) {
-        element.favorite = true;
+        element.favorite = 1;
         changeMovie(element);
       }
     });
