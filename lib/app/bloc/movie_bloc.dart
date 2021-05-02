@@ -10,18 +10,18 @@ class MovieBloc {
       BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
+    int page = 1;
     try {
       MovieResponse response = await repository.getMovies();
       _handlerList(response);
     } catch (error) {
       print(error);
-      _getMoviesLocal();
+      _getMoviesLocal(page);
     }
   }
 
-  _getMoviesLocal() async {
+  _getMoviesLocal(int page) async {
     try {
-      int page = 1;
       List<MovieModel> list = await repository.getMovieLocalWith(page);
       MovieController.instance.changeMoviesApi(list);
       print(list);
