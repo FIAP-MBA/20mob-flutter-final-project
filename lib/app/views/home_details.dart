@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/widget/text_movie.dart';
@@ -22,7 +23,7 @@ class MovieDetails extends StatelessWidget {
                 background: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 250,
-                  child: Image.network(
+                  child: CachedNetworkImage(imageUrl:
                     "http://image.tmdb.org/t/p/" + "w500" + movie.backdropPath,
                     fit: BoxFit.cover,
                   ),
@@ -71,7 +72,7 @@ class MovieDetails extends StatelessWidget {
                           borderRadius: new BorderRadius.circular(8.0),
                           child: Hero(
                             tag: 'poster_${movie.posterPath}',
-                            child: Image.network(
+                            child: CachedNetworkImage(imageUrl:
                               "http://image.tmdb.org/t/p/" +
                                   "w500" +
                                   movie.posterPath,
