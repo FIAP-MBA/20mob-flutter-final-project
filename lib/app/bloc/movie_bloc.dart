@@ -69,6 +69,7 @@ class MovieBloc {
     if(list.isEmpty) {
       _bookmark.sink.add(null);
     } else {
+      MovieController.instance.changeMoviesBookmark(list);
       _bookmark.sink.add(list);
     }
   }

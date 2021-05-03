@@ -30,11 +30,23 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
           stream: bloc.bookmark.stream,
           builder: (context, AsyncSnapshot<List<MovieModel>> snapshot) {
             if (snapshot.hasData) {
-              return _buildMovieWidget(snapshot.data);
+              if(snapshot.data.isNotEmpty) {
+                return _buildMovieWidget(snapshot.data);
+              } else {
+                return _buildBody();
+              }
             } else if (snapshot.hasError) {
               return _buildErrorWidget(snapshot.error, context);
             } else {
-              return _buildBody();
+              switch(snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return _buildLoadingWidget(context);
+                case ConnectionState.active:
+                  return _buildBody();
+                default:
+                  return _buildBody();
+              }
+
             }
           },
         );
@@ -79,6 +91,23 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
         ));
   }
 
+  Widget _buildLoadingWidget(BuildContext context) {
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Loading data from Firebase...",
+                style: Theme.of(context).textTheme.subtitle2),
+            Padding(
+              padding: EdgeInsets.only(top: 5),
+            ),
+            CircularProgressIndicator(
+              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          ],
+        ));
+  }
+
   Widget _buildBody() {
     return Column(
       children: [
@@ -93,7 +122,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
     );
   }
 
-  void loadBookmarks() {
+  loadBookmarks() {
     bloc.getBookmarks();
   }
 

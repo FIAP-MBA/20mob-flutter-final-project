@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
+import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/home_details.dart';
 
@@ -27,9 +29,9 @@ class _BuildBookmarkListTile extends State<BuildBookmarkListTile> {
     super.initState();
   }
 
-  void _favorite() async {
-    // MovieController.instance.changeMovies(widget.movie);
-    // Firestore.instance.collection('bookmark').document(widget.movie.id.toString()).setData(data, merge: true);
+  void removeFromFavorites(MovieModel movieModel) async {
+    MovieController.instance.deleteMovie(widget.movie);
+    Firestore.instance.collection('bookmark').document(movieModel.id.toString()).delete();
   }
 
   @override
@@ -60,7 +62,7 @@ class _BuildBookmarkListTile extends State<BuildBookmarkListTile> {
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: () => {_favorite()},
+                  onTap: () => {removeFromFavorites(widget.movie)},
                   child: _buildIcon(true),
                 ),
               ),

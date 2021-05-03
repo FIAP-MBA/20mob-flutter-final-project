@@ -5,6 +5,7 @@ class MovieController extends ChangeNotifier {
   static MovieController instance = MovieController();
 
   List<MovieModel> movies;
+  List<MovieModel> bookmarks;
   MovieModel movie;
 
   changeMovies(MovieModel movie) {
@@ -24,6 +25,16 @@ class MovieController extends ChangeNotifier {
 
   changeMoviesApi(List<MovieModel> movies) {
     this.movies = movies;
+    notifyListeners();
+  }
+
+  changeMoviesBookmark(List<MovieModel> bookmarks) {
+    this.bookmarks = bookmarks;
+    notifyListeners();
+  }
+
+  deleteMovie(MovieModel movie) {
+    bookmarks.remove(movie);
     notifyListeners();
   }
 }
