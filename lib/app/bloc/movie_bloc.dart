@@ -66,7 +66,11 @@ class MovieBloc {
       list.add(new MovieModel.fromMap(element.data));
     });
     print(list);
-    _bookmark.sink.add(list);
+    if(list.isEmpty) {
+      _bookmark.sink.add(null);
+    } else {
+      _bookmark.sink.add(list);
+    }
   }
 
   dispose() {
