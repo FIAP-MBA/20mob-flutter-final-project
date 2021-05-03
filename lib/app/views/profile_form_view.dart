@@ -50,6 +50,16 @@ class _ProfileFormViewState extends State<ProfileFormView> {
             ),
           ),
         ),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: ElevatedButton(
+            child: Text('Salvar'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.teal,
+            ),
+            onPressed: () {},
+
+          )
+        ),
       ],
     );
   }
