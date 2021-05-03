@@ -4,7 +4,7 @@ import 'package:floor/floor.dart';
 class ProfileModel {
 
   @primaryKey
-  int _id = 0;
+  int id = 0;
   final int positionImage;
   final String name;
   final String email;
@@ -13,7 +13,7 @@ class ProfileModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id' : _id,
+      'id' : id,
       'positionImage' : positionImage,
       'name' : name,
       'email' : email,
