@@ -10,7 +10,7 @@ class MovieBloc {
   final BehaviorSubject<List<MovieModel>> _subject =
       BehaviorSubject<List<MovieModel>>();
   final BehaviorSubject<List<MovieModel>> _bookmark =
-  BehaviorSubject<List<MovieModel>>();
+      BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
     int page = 1; //TODO: get more pages

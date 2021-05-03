@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/home_details.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BuildPopularListTile extends StatefulWidget {
   final MovieModel movie;
@@ -21,12 +19,12 @@ class BuildPopularListTile extends StatefulWidget {
     @required this.bloc,
     @required this.favoriteMovie,
   });
+
   @override
   _BuildPopularListTile createState() => _BuildPopularListTile();
 }
 
 class _BuildPopularListTile extends State<BuildPopularListTile> {
-
   @override
   void initState() {
     super.initState();
@@ -41,9 +39,13 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
       "popularity": widget.movie.popularity,
       "posterPath": widget.movie.posterPath,
       "title": widget.movie.title,
-      "voteAverage": widget.movie.voteAverage,
+      "id": widget.movie.id,
+      "voteAverage": widget.movie.voteAverage
     };
-    Firestore.instance.collection('bookmark').document(widget.movie.id.toString()).setData(data, merge: true);
+    Firestore.instance
+        .collection('bookmark')
+        .document(widget.movie.id.toString())
+        .setData(data, merge: true);
   }
 
   @override
@@ -90,10 +92,11 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
       return Image.asset('images/placeholder.png');
     } else {
       return CachedNetworkImage(
-        imageUrl: "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
-        placeholder: (context, url) => Image.asset('images/placeholder.png', fit: BoxFit.cover),
-        fit: BoxFit.cover
-      );
+          imageUrl:
+              "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
+          placeholder: (context, url) =>
+              Image.asset('images/placeholder.png', fit: BoxFit.cover),
+          fit: BoxFit.cover);
     }
   }
 

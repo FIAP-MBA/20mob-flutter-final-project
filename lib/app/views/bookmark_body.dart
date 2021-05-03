@@ -74,7 +74,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Error occured: $error",
-                style: Theme.of(context).textTheme.subtitle),
+                style: Theme.of(context).textTheme.subtitle2),
           ],
         ));
   }
