@@ -7,45 +7,31 @@ import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/home_details.dart';
 
-class BuildPopularListTile extends StatefulWidget {
+class BuildBookmarkListTile extends StatefulWidget {
+
   final MovieModel movie;
 
   final MovieBloc bloc;
 
-  final MovieModel favoriteMovie;
-
-  BuildPopularListTile({
+  BuildBookmarkListTile({
     @required this.movie,
-    @required this.bloc,
-    @required this.favoriteMovie,
+    @required this.bloc
   });
 
   @override
-  _BuildPopularListTile createState() => _BuildPopularListTile();
+  _BuildBookmarkListTile createState() => _BuildBookmarkListTile();
 }
 
-class _BuildPopularListTile extends State<BuildPopularListTile> {
+class _BuildBookmarkListTile extends State<BuildBookmarkListTile> {
+
   @override
   void initState() {
     super.initState();
   }
 
-  void _favorite() async {
-    MovieController.instance.changeMovies(widget.movie);
-    Map<String, dynamic> data = {
-      "backdropPath": widget.movie.backdropPath,
-      "originalTitle": widget.movie.originalTitle,
-      "overview": widget.movie.overview,
-      "popularity": widget.movie.popularity,
-      "posterPath": widget.movie.posterPath,
-      "title": widget.movie.title,
-      "id": widget.movie.id,
-      "voteAverage": widget.movie.voteAverage
-    };
-    Firestore.instance
-        .collection('bookmark')
-        .document(widget.movie.id.toString())
-        .setData(data, merge: true);
+  void removeFromFavorites(MovieModel movieModel) async {
+    MovieController.instance.deleteMovie(widget.movie);
+    Firestore.instance.collection('bookmark').document(movieModel.id.toString()).delete();
   }
 
   @override
@@ -71,13 +57,13 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
             fit: StackFit.expand,
             children: <Widget>[
               Hero(
-                  tag: 'poster_${widget.movie.posterPath}',
+                  tag: 'poster_bookmark_${widget.movie.posterPath}',
                   child: _buildPoster(widget.movie.posterPath)),
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: () => {_favorite()},
-                  child: _buildIcon(widget.movie.favorite == 1),
+                  onTap: () => {removeFromFavorites(widget.movie)},
+                  child: _buildIcon(true),
                 ),
               ),
             ],
@@ -92,11 +78,10 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
       return Image.asset('images/placeholder.png');
     } else {
       return CachedNetworkImage(
-          imageUrl:
-              "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
-          placeholder: (context, url) =>
-              Image.asset('images/placeholder.png', fit: BoxFit.cover),
-          fit: BoxFit.cover);
+        imageUrl: "http://image.tmdb.org/t/p/" + "w185" + widget.movie.posterPath,
+        placeholder: (context, url) => Image.asset('images/placeholder.png', fit: BoxFit.cover),
+        fit: BoxFit.cover
+      );
     }
   }
 
@@ -109,7 +94,7 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
         child: FlareActor(
           'assets/Favorite.flr',
           shouldClip: false,
-          snapToEnd: widget.favoriteMovie == null ? true : false,
+          snapToEnd: true,
           color: Colors.white,
           animation: isFavorite ? 'Favorite' : 'Unfavorite',
         ),

@@ -60,7 +60,7 @@ class MovieDetailsTextWidgets {
     );
   }
 
-  Widget buildTagline(String text) {
+  Widget buildTagLine(String text) {
     return TyperAnimatedTextKit(
       text: [text],
       duration: Duration(seconds: 2),

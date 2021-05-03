@@ -1,13 +1,13 @@
-
-
 import 'package:flutter/material.dart';
 
 class ProfileFormView extends StatefulWidget {
+
   @override
   _ProfileFormViewState createState() => _ProfileFormViewState();
 }
 
 class _ProfileFormViewState extends State<ProfileFormView> {
+
   @override
   void initState() {
     super.initState();

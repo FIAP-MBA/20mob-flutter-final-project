@@ -57,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Error occured: $error",
-            style: Theme.of(context).textTheme.subtitle),
+            style: Theme.of(context).textTheme.subtitle2),
       ],
     ));
   }
@@ -68,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Loading data from API...",
-            style: Theme.of(context).textTheme.subtitle),
+            style: Theme.of(context).textTheme.subtitle2),
         Padding(
           padding: EdgeInsets.only(top: 5),
         ),
