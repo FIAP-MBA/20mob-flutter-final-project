@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_20mob_project_final/app/views/bookmark_view.dart';
 import 'package:flutter_20mob_project_final/app/views/home_view.dart';
 import 'package:flutter_20mob_project_final/app/views/profile_view.dart';
 
@@ -42,7 +43,7 @@ class HamburguerView extends StatelessWidget {
                 subtitle: Text("seus filmes favoritos"),
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfileView())
+                      MaterialPageRoute(builder: (context) => BookmarkView())
                   );
                 },
               ),
