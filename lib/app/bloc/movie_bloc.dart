@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_response.dart';
@@ -8,6 +9,8 @@ class MovieBloc {
   MovieRepository repository;
   final BehaviorSubject<List<MovieModel>> _subject =
       BehaviorSubject<List<MovieModel>>();
+  final BehaviorSubject<List<MovieModel>> _bookmark =
+  BehaviorSubject<List<MovieModel>>();
 
   getMovies() async {
     int page = 1; //TODO: get more pages
@@ -17,6 +20,15 @@ class MovieBloc {
     } catch (error) {
       print(error);
       _getMoviesLocal(page);
+    }
+  }
+
+  getBookmarks() async {
+    try {
+      QuerySnapshot response = await repository.getBookmarks();
+      _handlerListFromFirestore(response);
+    } catch (error) {
+      print(error);
     }
   }
 
@@ -48,11 +60,21 @@ class MovieBloc {
     _subject.sink.add(list);
   }
 
+  _handlerListFromFirestore(QuerySnapshot response) async {
+    List<MovieModel> list = new List.empty(growable: true);
+    response.documents.forEach((element) async {
+      list.add(new MovieModel.fromMap(element.data));
+    });
+    print(list);
+    _bookmark.sink.add(list);
+  }
+
   dispose() {
     _subject.close();
   }
 
   BehaviorSubject<List<MovieModel>> get subject => _subject;
+  BehaviorSubject<List<MovieModel>> get bookmark => _bookmark;
 }
 
 final bloc = MovieBloc();

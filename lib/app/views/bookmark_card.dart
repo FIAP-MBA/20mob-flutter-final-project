@@ -1,31 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
-import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/views/home_details.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BuildPopularListTile extends StatefulWidget {
+class BuildBookmarkListTile extends StatefulWidget {
+
   final MovieModel movie;
 
   final MovieBloc bloc;
 
-  final MovieModel favoriteMovie;
-
-  BuildPopularListTile({
+  BuildBookmarkListTile({
     @required this.movie,
-    @required this.bloc,
-    @required this.favoriteMovie,
+    @required this.bloc
   });
+
   @override
-  _BuildPopularListTile createState() => _BuildPopularListTile();
+  _BuildBookmarkListTile createState() => _BuildBookmarkListTile();
 }
 
-class _BuildPopularListTile extends State<BuildPopularListTile> {
+class _BuildBookmarkListTile extends State<BuildBookmarkListTile> {
 
   @override
   void initState() {
@@ -33,17 +28,8 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
   }
 
   void _favorite() async {
-    MovieController.instance.changeMovies(widget.movie);
-    Map<String, dynamic> data = {
-      "backdropPath": widget.movie.backdropPath,
-      "originalTitle": widget.movie.originalTitle,
-      "overview": widget.movie.overview,
-      "popularity": widget.movie.popularity,
-      "posterPath": widget.movie.posterPath,
-      "title": widget.movie.title,
-      "voteAverage": widget.movie.voteAverage,
-    };
-    Firestore.instance.collection('bookmark').document(widget.movie.id.toString()).setData(data, merge: true);
+    // MovieController.instance.changeMovies(widget.movie);
+    // Firestore.instance.collection('bookmark').document(widget.movie.id.toString()).setData(data, merge: true);
   }
 
   @override
@@ -69,13 +55,13 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
             fit: StackFit.expand,
             children: <Widget>[
               Hero(
-                  tag: 'poster_${widget.movie.posterPath}',
+                  tag: 'poster_bookmark_${widget.movie.posterPath}',
                   child: _buildPoster(widget.movie.posterPath)),
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap: () => {_favorite()},
-                  child: _buildIcon(widget.movie.favorite == 1),
+                  child: _buildIcon(true),
                 ),
               ),
             ],
@@ -106,7 +92,7 @@ class _BuildPopularListTile extends State<BuildPopularListTile> {
         child: FlareActor(
           'assets/Favorite.flr',
           shouldClip: false,
-          snapToEnd: widget.favoriteMovie == null ? true : false,
+          snapToEnd: true,
           color: Colors.white,
           animation: isFavorite ? 'Favorite' : 'Unfavorite',
         ),

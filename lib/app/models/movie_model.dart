@@ -56,6 +56,15 @@ class MovieModel {
         voteCount = json["vote_count"],
         year = json["year"];
 
+  MovieModel.fromMap(Map<String, dynamic> map, {this.homepage, this.id, this.originalLanguage, this.releaseDate, this.uid, this.voteCount, this.year})
+      : backdropPath = map["backdropPath"],
+        originalTitle = map["originalTitle"],
+        overview = map["overview"],
+        popularity = map["popularity"],
+        posterPath = map["posterPath"],
+        title = map["title"],
+        voteAverage = map["voteAverage"].toString();
+
   Map<String, dynamic> toJson() {
     return {
       'backdropPath' : backdropPath,
