@@ -1,10 +1,11 @@
+import 'package:floor/floor.dart';
+
+@entity
 class MovieModel {
-  final bool adult;
   final String backdropPath;
-  final bool favorite;
-  final List genreIds;
-  final String genres;
+  int favorite;
   final String homepage;
+  @primaryKey
   final int id;
   final String originalLanguage;
   final String originalTitle;
@@ -14,17 +15,14 @@ class MovieModel {
   final String releaseDate;
   final String title;
   final int uid;
-  final bool video;
   final String voteAverage;
   final int voteCount;
   final String year;
+  int idResponse;
 
-  const MovieModel(
-      this.adult,
+  MovieModel({
       this.backdropPath,
       this.favorite,
-      this.genreIds,
-      this.genres,
       this.homepage,
       this.id,
       this.originalLanguage,
@@ -35,29 +33,57 @@ class MovieModel {
       this.releaseDate,
       this.title,
       this.uid,
-      this.video,
       this.voteAverage,
       this.voteCount,
-      this.year);
+      this.year,
+      this.idResponse
+  });
 
   MovieModel.fromJson(Map<String, dynamic> json)
-      : adult = json["adult"],
-        backdropPath = json["backdrop_path"],
-        favorite = json["favorite"],
-        genreIds = json["genre_ids"],
-        genres = json["genres"],
+      : backdropPath = json["backdrop_path"],
+        favorite = 0,
         homepage = json["homepage"],
         id = json["id"],
         originalLanguage = json["original_language"],
         originalTitle = json["original_title"],
         overview = json["overview"],
-        popularity = json["popularity"].toString(),
+        popularity = json["popularity"].toStringAsFixed(2),
         posterPath = json["poster_path"],
         releaseDate = json["release_date"],
         title = json["title"],
         uid = json["id"],
-        video = json["video"],
         voteAverage = json["vote_average"].toString(),
         voteCount = json["vote_count"],
         year = json["year"];
+
+  MovieModel.fromMap(Map<String, dynamic> map, {this.homepage, this.originalLanguage, this.releaseDate, this.uid, this.voteCount, this.year})
+      : backdropPath = map["backdropPath"],
+        originalTitle = map["originalTitle"],
+        overview = map["overview"],
+        popularity = map["popularity"],
+        posterPath = map["posterPath"],
+        title = map["title"],
+        id = map["id"],
+        voteAverage = map["voteAverage"].toString();
+
+  Map<String, dynamic> toJson() {
+    return {
+      'backdropPath' : backdropPath,
+      'favorite' : favorite,
+      'homepage' : homepage,
+      'id' : id,
+      'originalLanguage' : originalLanguage,
+      'originalTitle' : originalTitle,
+      'overview' : overview,
+      'popularity' : popularity,
+      'posterPath' : posterPath,
+      'releaseDate' : releaseDate,
+      'title' : title,
+      'uid' : uid,
+      'voteAverage' : voteAverage,
+      'voteCount' : voteCount,
+      'year' : year,
+      'idResponse' : idResponse
+    };
+  }
 }
