@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/profile_bloc.dart';
 import 'package:flutter_20mob_project_final/app/views/bookmark_view.dart';
 import 'package:flutter_20mob_project_final/app/views/home_view.dart';
 import 'package:flutter_20mob_project_final/app/views/profile_view.dart';
-import 'package:flutter_20mob_project_final/app/widget/header_view.dart';
 
 class HamburguerView extends StatelessWidget {
   @override
@@ -13,12 +12,7 @@ class HamburguerView extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             children: [
-              HeaderView(
-                image: AppController.instance.profile != null ? AppController.instance.profile.positionImage : 50,
-                name: AppController.instance.profile != null ? AppController.instance.profile.name : "Crie seu perfil",
-                email: AppController.instance.profile != null ? AppController.instance.profile.email : "",
-                onTap: () {},
-              ),
+              UserAccountsDrawerHeader(accountName: Text("Movies Labs"), accountEmail: Text("O Melhor App de filmes")),
               ListTile(
                 leading: Icon(Icons.home),
                 title: Text("Início"),
@@ -32,6 +26,7 @@ class HamburguerView extends StatelessWidget {
                 title: Text("Perfil"),
                 subtitle: Text("Criar/Editar perfil"),
                 onTap: () {
+                  profileBloc.getLocalProfile();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => ProfileView())
                   );
