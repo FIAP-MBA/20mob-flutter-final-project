@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/profile_bloc.dart';
 import 'package:flutter_20mob_project_final/app/bloc/profile_controller.dart';
-import 'package:flutter_20mob_project_final/app/repositories/db/app_database.dart';
-import 'package:flutter_20mob_project_final/app/repositories/profile_repository.dart';
 
 class ProfileFormView extends StatefulWidget {
   @override
@@ -10,18 +8,13 @@ class ProfileFormView extends StatefulWidget {
 }
 
 class _ProfileFormViewState extends State<ProfileFormView> {
+  int image = ProfileController.instance.profile != null ? ProfileController.instance.profile.positionImage : 1;
+  String name = ProfileController.instance.profile != null ? ProfileController.instance.profile.name : "";
+  String email = ProfileController.instance.profile != null ? ProfileController.instance.profile.email : "";
+
   @override
   void initState() {
     super.initState();
-    _createDataBase();
-  }
-
-  _createDataBase() {
-    $FloorAppDatabase.databaseBuilder('app_database.db').build().then((value) {
-      AppDatabase _database = value;
-      profileBloc.repository = ProfileRepository(_database);
-      profileBloc.getLocalProfile();
-    });
   }
 
   @override
@@ -33,21 +26,32 @@ class _ProfileFormViewState extends State<ProfileFormView> {
     );
   }
 
+  _changeImage() {
+    if (image + 1 > 3) {
+      image = 1;
+    } else {
+      image += 1;
+    }
+    print(image);
+  }
+
   Widget _buildForm() {
     return Column(
       children: [
         UserAccountsDrawerHeader(
-            currentAccountPicture: ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: Image.network(
-                  "https://media-exp1.licdn.com/dms/image/C4D03AQHhzonVPmrkow/profile-displayphoto-shrink_800_800/0/1612361529978?e=1625097600&v=beta&t=mjnF-EARrM-7HJo4YG_HOf7vphgiDhYRSThJhU1JS0U"),
+            currentAccountPicture: InkWell(
+                onTap: () {
+                  _changeImage();
+                  setState(() {});
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: Image.asset("images/$image.jpg")
+                )
             ),
-            accountName: Text(ProfileController.instance.profile != null
-                ? ProfileController.instance.profile.name
-                : ""),
-            accountEmail: Text(ProfileController.instance.profile != null
-                ? ProfileController.instance.profile.email
-                : "")),
+              accountName: Text(name),
+            accountEmail: Text(email),
+        ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: TextFormField(
@@ -55,6 +59,9 @@ class _ProfileFormViewState extends State<ProfileFormView> {
               icon: Icon(Icons.person),
               hintText: 'Nome',
             ),
+            onChanged: (text) {
+              name = text;
+            },
           ),
         ),
         Padding(
@@ -64,6 +71,9 @@ class _ProfileFormViewState extends State<ProfileFormView> {
               icon: Icon(Icons.email),
               hintText: 'Email',
             ),
+            onChanged: (text) {
+              email = text;
+            },
           ),
         ),
         Padding(
@@ -73,7 +83,10 @@ class _ProfileFormViewState extends State<ProfileFormView> {
               style: ElevatedButton.styleFrom(
                 primary: Colors.teal,
               ),
-              onPressed: () {},
+              onPressed: () {
+                profileBloc.insertLocalProfile(name, email, image);
+                setState(() {});
+              },
             )),
       ],
     );

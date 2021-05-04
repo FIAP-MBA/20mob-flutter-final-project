@@ -82,4 +82,4 @@ class MovieBloc {
   BehaviorSubject<List<MovieModel>> get bookmark => _bookmark;
 }
 
-final bloc = MovieBloc();
+final movieBloc = MovieBloc();

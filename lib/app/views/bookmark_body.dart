@@ -27,7 +27,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
       animation: MovieController.instance,
       builder: (BuildContext context, Widget child) {
         return StreamBuilder<List<MovieModel>>(
-          stream: bloc.bookmark.stream,
+          stream: movieBloc.bookmark.stream,
           builder: (context, AsyncSnapshot<List<MovieModel>> snapshot) {
             if (snapshot.hasData) {
               if(snapshot.data.isNotEmpty) {
@@ -57,7 +57,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
   Widget _buildMovieWidget(List<MovieModel> bookmarks) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) =>
-          _handleScrollNotification(notification, bloc),
+          _handleScrollNotification(notification, movieBloc),
       child: GridView.builder(
         itemCount: bookmarks.length,
         controller: _scrollController,
@@ -73,7 +73,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
           }
           return BuildBookmarkListTile(
             movie: bookmarks[position],
-            bloc: bloc
+            bloc: movieBloc
           );
         },
       ),
@@ -123,7 +123,7 @@ class _BookmarkBodyViewState extends State<BookmarkBody> {
   }
 
   loadBookmarks() {
-    bloc.getBookmarks();
+    movieBloc.getBookmarks();
   }
 
   bool _handleScrollNotification(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/profile_bloc.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/repositories/db/app_database.dart';
 import 'package:flutter_20mob_project_final/app/repositories/movie_repository.dart';
+import 'package:flutter_20mob_project_final/app/repositories/profile_repository.dart';
 import 'package:flutter_20mob_project_final/app/views/movie_card.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,8 +27,11 @@ class _HomeViewState extends State<HomeView> {
         .build()
         .then((value) {
           AppDatabase _database = value;
-          bloc.repository = MovieRepository(_database);
-          bloc.getMovies();
+          movieBloc.repository = MovieRepository(_database);
+          profileBloc.repository = ProfileRepository(_database);
+          movieBloc.getMovies();
+          profileBloc.getLocalProfile();
+          setState(() {});
         });
   }
 
@@ -36,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
       animation: MovieController.instance,
       builder: (BuildContext context, Widget child) {
         return StreamBuilder<List<MovieModel>>(
-          stream: bloc.subject.stream,
+          stream: movieBloc.subject.stream,
           builder: (context, AsyncSnapshot<List<MovieModel>> snapshot) {
             if (snapshot.hasData) {
               return _buildMovieWidget(snapshot.data);
@@ -82,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildMovieWidget(List<MovieModel> movies) {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) =>
-          _handleScrollNotification(notification, bloc),
+          _handleScrollNotification(notification, movieBloc),
       child: GridView.builder(
         itemCount: movies.length,
         controller: _scrollController,
@@ -98,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
           }
           return BuildPopularListTile(
             movie: movies[position],
-            bloc: bloc,
+            bloc: movieBloc,
             favoriteMovie: MovieController.instance.movies[position],
           );
         },
