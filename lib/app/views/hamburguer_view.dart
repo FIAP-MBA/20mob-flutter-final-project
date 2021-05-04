@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_20mob_project_final/app/bloc/profile_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
 import 'package:flutter_20mob_project_final/app/views/bookmark_view.dart';
 import 'package:flutter_20mob_project_final/app/views/home_view.dart';
 import 'package:flutter_20mob_project_final/app/views/profile_view.dart';
+import 'package:flutter_20mob_project_final/app/widget/header_view.dart';
 
 class HamburguerView extends StatelessWidget {
   @override
@@ -12,13 +13,11 @@ class HamburguerView extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             children: [
-              UserAccountsDrawerHeader(
-                currentAccountPicture: ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: Image.asset("images/${ProfileController.instance.profile != null ? ProfileController.instance.profile.positionImage : 1}.jpg")
-                ),
-                accountName: Text(ProfileController.instance.profile != null ? ProfileController.instance.profile.name : ""),
-                accountEmail: Text(ProfileController.instance.profile != null ? ProfileController.instance.profile.email : ""),
+              HeaderView(
+                image: AppController.instance.profile != null ? AppController.instance.profile.positionImage : 1,
+                name: AppController.instance.profile != null ? AppController.instance.profile.name : "",
+                email: AppController.instance.profile != null ? AppController.instance.profile.email : "",
+                onTap: () {},
               ),
               ListTile(
                 leading: Icon(Icons.home),

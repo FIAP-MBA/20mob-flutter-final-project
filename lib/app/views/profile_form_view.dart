@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
 import 'package:flutter_20mob_project_final/app/bloc/profile_bloc.dart';
-import 'package:flutter_20mob_project_final/app/bloc/profile_controller.dart';
+import 'package:flutter_20mob_project_final/app/widget/header_view.dart';
 
 class ProfileFormView extends StatefulWidget {
   @override
@@ -8,9 +9,9 @@ class ProfileFormView extends StatefulWidget {
 }
 
 class _ProfileFormViewState extends State<ProfileFormView> {
-  int image = ProfileController.instance.profile != null ? ProfileController.instance.profile.positionImage : 1;
-  String name = ProfileController.instance.profile != null ? ProfileController.instance.profile.name : "";
-  String email = ProfileController.instance.profile != null ? ProfileController.instance.profile.email : "";
+  int image = AppController.instance.profile != null ? AppController.instance.profile.positionImage : 1;
+  String name = AppController.instance.profile != null ? AppController.instance.profile.name : "";
+  String email = AppController.instance.profile != null ? AppController.instance.profile.email : "";
 
   @override
   void initState() {
@@ -33,25 +34,13 @@ class _ProfileFormViewState extends State<ProfileFormView> {
       image += 1;
     }
     print(image);
+    setState(() {});
   }
 
   Widget _buildForm() {
     return Column(
       children: [
-        UserAccountsDrawerHeader(
-            currentAccountPicture: InkWell(
-                onTap: () {
-                  _changeImage();
-                  setState(() {});
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: Image.asset("images/$image.jpg")
-                )
-            ),
-              accountName: Text(name),
-            accountEmail: Text(email),
-        ),
+        HeaderView(image: image, name: name, email: email, onTap: () { _changeImage(); }),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: TextFormField(
@@ -86,6 +75,7 @@ class _ProfileFormViewState extends State<ProfileFormView> {
               onPressed: () {
                 profileBloc.insertLocalProfile(name, email, image);
                 setState(() {});
+                Navigator.pop(context);
               },
             )),
       ],

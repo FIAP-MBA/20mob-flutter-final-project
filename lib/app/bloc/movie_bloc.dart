@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_response.dart';
 import 'package:flutter_20mob_project_final/app/repositories/movie_repository.dart';
@@ -9,6 +9,7 @@ class MovieBloc {
   MovieRepository repository;
   final BehaviorSubject<List<MovieModel>> _subject =
       BehaviorSubject<List<MovieModel>>();
+  // ignore: close_sinks
   final BehaviorSubject<List<MovieModel>> _bookmark =
       BehaviorSubject<List<MovieModel>>();
 
@@ -36,7 +37,7 @@ class MovieBloc {
     try {
       List<MovieModel> list = await repository.getMovieLocalWith(page);
       list.sort((a, b) => double.parse(b.popularity).compareTo(double.parse(a.popularity)));
-      MovieController.instance.changeMoviesApi(list);
+      AppController.instance.changeMoviesApi(list);
       print(list);
       _subject.sink.add(list);
     } catch(error) {
@@ -55,7 +56,7 @@ class MovieBloc {
       await repository.insertMovie(element);
     });
     List<MovieModel> list = response.results;
-    MovieController.instance.changeMoviesApi(list);
+    AppController.instance.changeMoviesApi(list);
     print(list);
     _subject.sink.add(list);
   }
@@ -69,7 +70,7 @@ class MovieBloc {
     if(list.isEmpty) {
       _bookmark.sink.add(null);
     } else {
-      MovieController.instance.changeMoviesBookmark(list);
+      AppController.instance.changeMoviesBookmark(list);
       _bookmark.sink.add(list);
     }
   }

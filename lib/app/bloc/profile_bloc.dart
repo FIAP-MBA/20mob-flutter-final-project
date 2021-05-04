@@ -1,4 +1,4 @@
-import 'package:flutter_20mob_project_final/app/bloc/profile_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
 import 'package:flutter_20mob_project_final/app/models/profile_model.dart';
 import 'package:flutter_20mob_project_final/app/repositories/profile_repository.dart';
 
@@ -10,7 +10,7 @@ class ProfileBloc {
       if(profile == null) {
         profile = ProfileModel(1, "Insira seu nome", "Insira seu email");
       }
-      ProfileController.instance.changeProfile(profile);
+      AppController.instance.changeProfile(profile);
       print(profile);
     } catch (error) {
       print(error);

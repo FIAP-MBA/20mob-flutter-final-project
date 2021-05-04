@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/bloc/movie_bloc.dart';
-import 'package:flutter_20mob_project_final/app/bloc/movie_controller.dart';
+import 'package:flutter_20mob_project_final/app/bloc/app_controller.dart';
 import 'package:flutter_20mob_project_final/app/bloc/profile_bloc.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
 import 'package:flutter_20mob_project_final/app/repositories/db/app_database.dart';
@@ -38,7 +38,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: MovieController.instance,
+      animation: AppController.instance,
       builder: (BuildContext context, Widget child) {
         return StreamBuilder<List<MovieModel>>(
           stream: movieBloc.subject.stream,
@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
           return BuildPopularListTile(
             movie: movies[position],
             bloc: movieBloc,
-            favoriteMovie: MovieController.instance.movies[position],
+            favoriteMovie: AppController.instance.movies[position],
           );
         },
       ),

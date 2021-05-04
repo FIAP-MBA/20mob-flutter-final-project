@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_20mob_project_final/app/models/movie_model.dart';
+import 'package:flutter_20mob_project_final/app/models/profile_model.dart';
 
-class MovieController extends ChangeNotifier {
-  static MovieController instance = MovieController();
+class AppController extends ChangeNotifier {
+  static AppController instance = AppController();
 
   List<MovieModel> movies;
   List<MovieModel> bookmarks;
   MovieModel movie;
+  ProfileModel profile;
 
   changeMovies(MovieModel movie) {
     movies.forEach((element) {
@@ -15,6 +17,11 @@ class MovieController extends ChangeNotifier {
         changeMovie(element);
       }
     });
+    notifyListeners();
+  }
+
+  changeProfile(ProfileModel profile) {
+    this.profile = profile;
     notifyListeners();
   }
 
