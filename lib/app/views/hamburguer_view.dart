@@ -14,8 +14,8 @@ class HamburguerView extends StatelessWidget {
           child: Column(
             children: [
               HeaderView(
-                image: AppController.instance.profile != null ? AppController.instance.profile.positionImage : 1,
-                name: AppController.instance.profile != null ? AppController.instance.profile.name : "",
+                image: AppController.instance.profile != null ? AppController.instance.profile.positionImage : 50,
+                name: AppController.instance.profile != null ? AppController.instance.profile.name : "Crie seu perfil",
                 email: AppController.instance.profile != null ? AppController.instance.profile.email : "",
                 onTap: () {},
               ),
